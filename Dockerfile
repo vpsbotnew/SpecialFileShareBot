@@ -1,11 +1,18 @@
-FROM python:3.9-slim-buster
-WORKDIR /app
+FROM python:3.10.8-slim-buster
 
-RUN apt update -y
-RUN apt install gcc -y
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+# Update and install git in a single layer
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y git
 
-COPY . .
+# Copy the requirements file and install Python dependencies
+COPY requirements.txt /requirements.txt
+RUN pip3 install -U pip && \
+    pip3 install -U -r /requirements.txt
 
-CMD python3 -m bot.main
+# Set up the working directory and copy the application code
+WORKDIR /YNFILESBOT
+COPY . /YNFILESBOT
+
+# Define the command to run the application
+CMD ["python3", "-m", "bot.main"]
