@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.client import Client
 from pyrogram.types import Message
-from motor.motor_asyncio import AsyncIOMotorClient
+
 
 from bot.config import config
 from bot.database import MongoDB
@@ -29,9 +29,8 @@ async def help_command(client: Client, message: Message) -> Message:  # noqa: AR
 
 
 
-client = AsyncIOMotorClient(config.MONGO_DB_URL)
-mydb = client[config.MONGO_DB_NAME]
-dbcol = mydb["Users"]
+
+dbcol = database.db["Users"]
 
 @Client.on_message(
     filters.private & PyroFilters.admin() & filters.command("removeid"),
