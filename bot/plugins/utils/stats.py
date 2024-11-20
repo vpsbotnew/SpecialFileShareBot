@@ -38,6 +38,7 @@ async def stats_command(client: Client, message: Message) -> None:
 @Client.on_message(
     filters.private & PyroFilters.admin() & filters.command("removeid"),
 )
+@RateLimiter.hybrid_limiter(func_count=1)
 async def remove_userid(client: Client, message: Message) -> None:
     """
     Command to remove a user from the database by their user ID.
@@ -74,3 +75,10 @@ async def remove_userid(client: Client, message: Message) -> None:
 
     except Exception as e:
         await msg.edit(f"Error during the removal process: {str(e)}")
+
+HelpCmd.set_help(
+    command="removeid",
+    description=remove_userid.__doc__,
+    allow_global=False,
+    allow_non_admin=False,
+)
