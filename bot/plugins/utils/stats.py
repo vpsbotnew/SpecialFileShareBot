@@ -38,7 +38,7 @@ dbcol = mydb["Users"]
 @RateLimiter.hybrid_limiter(func_count=1)
 async def remove_userid(bot: Client, message: Message) -> Message:  # noqa: ARG001
     user_id = message.from_user.id
-    msg = await message.reply("Please enter the user's ID to remove their premium subscription. \nType /cancel to cancel.")
+    msg = await message.reply("Please enter the user's ID to remove their \n\nType /cancel to cancel.")
 
     try:
         user_input = await bot.listen(user_id)
