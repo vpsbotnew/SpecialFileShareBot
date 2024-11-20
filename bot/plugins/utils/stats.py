@@ -1,6 +1,7 @@
 from pyrogram import filters
 from pyrogram.client import Client
 from pyrogram.types import Message
+from motor.motor_asyncio import AsyncIOMotorClient
 
 from bot.config import config
 from bot.database import MongoDB
