@@ -36,7 +36,6 @@ dbcol = mydb["Users"]
 @Client.on_message(
     filters.private & PyroFilters.admin() & filters.command("removeid"),
 )
-@RateLimiter.hybrid_limiter(func_count=1)
 async def remove_userid(bot: Client, message: Message) -> Message:  # noqa: ARG001
     user_id = message.from_user.id
     msg = await message.reply("Please enter the user's ID to remove their \n\nType /cancel to cancel.")
