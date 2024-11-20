@@ -6,6 +6,7 @@ from bot.config import config
 from bot.database import MongoDB
 from bot.utilities.helpers import RateLimiter
 from bot.utilities.pyrofilters import PyroFilters
+from bot.utilities.pyrotools import HelpCmd
 
 # Initialize the database connection
 database = MongoDB(database=config.MONGO_DB_NAME)
