@@ -162,8 +162,8 @@ async def file_start(
     return message.stop_propagation()
 
 
-@Client.on_message(filters.command("start") & filters.private, group=1)
-@RateLimiter.hybrid_limiter(func_count=1)
+#@Client.on_message(filters.command("start") & filters.private, group=1)
+#@RateLimiter.hybrid_limiter(func_count=1)
 async def return_start(
     client: Client,
     message: Message,
