@@ -45,38 +45,37 @@ async def remove_userid(client: Client, message: Message) -> None:
     Command to remove a user from the database by their user ID.
 
     Usage:
-        /removeid
+        /removeid <user_id>
     """
-    user_id = message.from_user.id
-    msg = await message.reply(
-        "Please enter the user's ID to remove.\n\nType `/cancel` to cancel."
-    )
+    if len(message.text.split()) == 1:
+        await message.reply_text(
+            "Please enter the user's ID to remove.\n\nType `/cancel` to cancel."
+        )
+        return
 
     try:
-        user_input = await client.listen(user_id)
-        if user_input.text == "/cancel":
-            await user_input.delete()
-            await msg.edit("Operation canceled.")
-            return
+        # Extract user ID from the command
+        user_to_remove = message.text.split(' ')[1]
 
-        user_to_remove = user_input.text.strip()
-
+        # Validate the user ID
         if not user_to_remove.isdigit():
-            await msg.edit("Invalid ID format. Please enter a numeric ID.")
+            await message.reply_text("Invalid ID format. Please enter a numeric ID.")
             return
 
         user_to_remove = int(user_to_remove)
 
+        # Check if the user exists in the database
         user_info = await dbcol.find_one({"_id": user_to_remove})
         if user_info:
-            await dbcol.delete_one({"_id": user_to_remove})  # Remove user from the database
-            await msg.edit(f"Successfully removed user with ID `{user_to_remove}`.")
+            await dbcol.delete_one({"_id": user_to_remove})  # Remove the user
+            await message.reply_text(f"Successfully removed user with ID `{user_to_remove}`.")
         else:
-            await msg.edit(f"No user found with ID `{user_to_remove}`.")
-
+            await message.reply_text(f"No user found with ID `{user_to_remove}`.")
     except Exception as e:
-        await msg.edit(f"Error during the removal process: {str(e)}")
+        await message.reply_text(f"Error during the removal process: {str(e)}")
 
+
+# Register the help command
 HelpCmd.set_help(
     command="removeid",
     description=remove_userid.__doc__,
